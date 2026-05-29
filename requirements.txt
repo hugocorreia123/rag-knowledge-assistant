@@ -1,0 +1,31 @@
+# Core
+python-dotenv==1.0.1
+
+# LLM providers
+groq==0.13.0
+
+# RAG / orchestration
+langchain==0.3.13
+langchain-community==0.3.13
+langgraph==0.2.60
+langchain-groq==0.2.2
+
+# Embeddings + vector store
+sentence-transformers==3.3.1
+chromadb==0.5.23
+
+# PDF parsing
+pypdf==5.1.0
+
+# Frontend
+streamlit==1.41.1
+
+# Backend API
+fastapi==0.115.6
+uvicorn==0.34.0
+
+# Evaluation
+pyyaml==6.0.2
+
+# Testing
+pytest==8.3.4
