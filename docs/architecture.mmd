@@ -1,0 +1,42 @@
+flowchart TB
+    User([👤 User]) --> UI[Streamlit UI]
+    UI --> API[FastAPI /ask endpoint]
+    API --> Graph
+
+    subgraph Graph[LangGraph Workflow]
+        direction TB
+        Rewrite[1.Rewrite query]
+        Retrieve[2.Retrieve docs]
+        Grade{3.Grade context}
+        Answer[4.Generate answer]
+        Refuse[Refuse: insufficient context]
+
+        Rewrite --> Retrieve
+        Retrieve --> Grade
+        Grade -->|relevant| Answer
+        Grade -->|irrelevant| Refuse
+    end
+
+    Rewrite -.uses.-> LLM[(Groq - Llama 3.3 70B)]
+    Retrieve -.queries.-> VectorDB[(Chroma Vector Store)]
+    Grade -.uses.-> LLM
+    Answer -.uses.-> LLM
+
+    Ingestion[📄 EU AI Act PDFs] -->|chunk + embed| Embeddings[Sentence-Transformers all-MiniLM-L6-v2]
+    Embeddings -->|store| VectorDB
+
+    classDef user fill:#4F46E5,stroke:#3730A3,color:#fff
+    classDef ui fill:#0EA5E9,stroke:#0369A1,color:#fff
+    classDef node fill:#F3F4F6,stroke:#6B7280,color:#111
+    classDef decision fill:#FCD34D,stroke:#B45309,color:#111
+    classDef refuse fill:#FCA5A5,stroke:#B91C1C,color:#111
+    classDef external fill:#10B981,stroke:#047857,color:#fff
+    classDef pdf fill:#F59E0B,stroke:#B45309,color:#fff
+
+    class User user
+    class UI,API ui
+    class Rewrite,Retrieve,Answer,Embeddings node
+    class Grade decision
+    class Refuse refuse
+    class LLM,VectorDB external
+    class Ingestion pdf
