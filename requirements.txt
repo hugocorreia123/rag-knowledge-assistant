@@ -3,6 +3,7 @@ python-dotenv==1.0.1
 
 # LLM providers
 groq==0.13.0
+langchain-openai==0.2.14
 
 # RAG / orchestration
 langchain==0.3.13
