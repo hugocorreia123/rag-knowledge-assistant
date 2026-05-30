@@ -13,13 +13,14 @@ PYTHON := python
 VENV := .venv
 ACTIVATE := source $(VENV)/bin/activate
 
-.PHONY: help install ingest run graph smoke test clean
+.PHONY: help install ingest run api graph smoke test clean
 
 help:
 	@echo "Available targets:"
 	@echo "  install   Create venv and install dependencies"
 	@echo "  ingest    Download data and build the vector store"
 	@echo "  run       Launch the Streamlit app"
+	@echo "  api       Launch the FastAPI REST endpoint"
 	@echo "  graph     Run the LangGraph workflow in the terminal"
 	@echo "  smoke     Smoke-test semantic retrieval"
 	@echo "  test      Run unit tests"
@@ -36,6 +37,9 @@ ingest:
 
 run:
 	$(PYTHON) -m streamlit run app/streamlit_app.py
+
+api:
+	$(PYTHON) -m uvicorn src.api:app --reload --host 0.0.0.0 --port 8000
 
 graph:
 	$(PYTHON) -m src.graph
