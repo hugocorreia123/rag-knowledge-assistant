@@ -3,6 +3,16 @@
 > A Retrieval-Augmented Generation (RAG) assistant that answers questions about the **EU AI Act** using a multi-step **LangGraph** workflow, local embeddings, and a swappable LLM backend (**Groq** by default, Azure OpenAI optional).
 
 <p align="center">
+  <img src="docs/screenshots/streamlit_ui.png" width="800" alt="Streamlit UI — RAG Knowledge Assistant"/>
+</p>
+
+<p align="center"><i>The Streamlit chat UI answering a question about the EU AI Act, with citations and retrieved context visible.</i></p>
+
+---
+
+## 🏗️ Architecture
+
+<p align="center">
   <img src="docs/architecture.png" width="720" alt="Architecture diagram"/>
 </p>
 
