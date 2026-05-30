@@ -52,26 +52,29 @@ This multi-step orchestration is the key difference from a naive RAG pipeline. I
 ## 🚀 Quickstart
 
 ```bash
-# 1. Clone and install
+# 1. Clone and install dependencies
 git clone https://github.com/hugocorreia123/rag-knowledge-assistant.git
 cd rag-knowledge-assistant
-python3.11 -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
+make install
+source .venv/bin/activate
 
 # 2. Add your Groq API key (free at https://console.groq.com)
 cp .env.example .env
 # edit .env and set GROQ_API_KEY=...
 
-# 3. Download and ingest the EU AI Act
-bash scripts/ingest.sh
+# 3. Download the EU AI Act and build the vector store
+make ingest
 
-# 4. Run the app
-streamlit run app/streamlit_app.py
+# 4. Launch the app
+make run
 ```
 
 The Streamlit UI opens at `http://localhost:8501`.
-The FastAPI endpoint runs at `http://localhost:8000/ask` (start it with `uvicorn src.api:app --reload`).
 
+**Other commands:**
+- `make graph` — run the LangGraph workflow in the terminal (no UI)
+- `make smoke` — smoke-test semantic retrieval
+- `make help`  — list all available commands
 ---
 
 ## 📊 Evaluation
