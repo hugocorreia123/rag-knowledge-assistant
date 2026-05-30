@@ -155,8 +155,8 @@ def build_graph():
     workflow.add_node("rewrite", node_rewrite)
     workflow.add_node("retrieve", node_retrieve)
     workflow.add_node("grade", node_grade)
-    workflow.add_node("answer", node_answer)
-    workflow.add_node("refuse", node_refuse)
+    workflow.add_node("generate_answer", node_answer)
+    workflow.add_node("generate_refusal", node_refuse)
 
     workflow.add_edge(START, "rewrite")
     workflow.add_edge("rewrite", "retrieve")
@@ -164,10 +164,10 @@ def build_graph():
     workflow.add_conditional_edges(
         "grade",
         route_after_grade,
-        {"answer": "answer", "refuse": "refuse"},
+        {"answer": "generate_answer", "refuse": "generate_refusal"},
     )
-    workflow.add_edge("answer", END)
-    workflow.add_edge("refuse", END)
+    workflow.add_edge("generate_answer", END)
+    workflow.add_edge("generate_refusal", END)
 
     return workflow.compile()
 
