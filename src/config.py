@@ -4,12 +4,15 @@ All environment variables, paths, and tunable parameters live here so the
 rest of the codebase never reads from os.environ directly. This makes the
 project easy to reconfigure (e.g. swap LLM providers) without code changes.
 """
-
 from __future__ import annotations
 
 import os
 from dataclasses import dataclass
 from pathlib import Path
+
+# Silence noisy third-party warnings that don't affect functionality.
+os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
+os.environ.setdefault("ANONYMIZED_TELEMETRY", "False")
 
 from dotenv import load_dotenv
 
@@ -74,7 +77,7 @@ EMBEDDING_MODEL_NAME = os.getenv(
 # ---------------------------------------------------------------------------
 CHUNK_SIZE = 800           # characters per chunk
 CHUNK_OVERLAP = 120        # overlap between chunks for context continuity
-TOP_K = 5                  # number of chunks retrieved per query
+TOP_K = 10                 # number of chunks retrieved per query
 CHROMA_COLLECTION = "eu_ai_act"
 
 

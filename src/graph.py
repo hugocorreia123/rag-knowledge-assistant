@@ -43,22 +43,21 @@ class GraphState(TypedDict, total=False):
 # ---------------------------------------------------------------------------
 # Prompts
 # ---------------------------------------------------------------------------
-REWRITE_SYSTEM = """You rewrite user questions to maximize document retrieval quality.
+REWRITE_SYSTEM = """You optionally rewrite user questions to improve document retrieval.
 
 Rules:
-- Keep the user's intent intact.
-- Expand acronyms and resolve ambiguous references.
-- Use formal, document-style language (the corpus is EU legislation).
-- Output ONLY the rewritten question. No preamble, no explanation.
-- If the original is already clear and formal, return it unchanged."""
+- If the question is already clear, specific, and well-formed, return it UNCHANGED.
+- Only rewrite when the question is ambiguous, uses slang, or omits key context.
+- Keep rewrites short — same length or shorter than the original.
+- Output ONLY the (possibly unchanged) question. No preamble, no explanation, no quotes."""
 
-GRADE_SYSTEM = """You judge whether a retrieved context contains enough information to answer a question.
+GRADE_SYSTEM = """You are deciding whether to attempt an answer.
 
-Reply with exactly one word:
-- "YES" if the context contains a direct, substantive answer to the question.
-- "NO" if the context is unrelated, tangential, or insufficient.
+The context below contains retrieved passages from a regulatory document. Reply YES if ANY of the passages mention or relate to the topic of the question, even tangentially. Reply NO only if NONE of the passages are about the topic at all.
 
-Do not explain. Do not hedge. One word only."""
+When unsure, say YES. The answering step will handle nuance — your only job is to filter out completely unrelated questions (like asking about cooking when the document is about law).
+
+Reply with exactly one word: YES or NO."""
 
 ANSWER_SYSTEM = """You are an assistant specialized in the EU AI Act (Regulation (EU) 2024/1689).
 
@@ -81,14 +80,33 @@ REFUSE_MESSAGE = (
 # Nodes
 # ---------------------------------------------------------------------------
 def node_rewrite(state: GraphState) -> GraphState:
-    """Improve the question for better retrieval."""
+    """Improve the question for better retrieval — but only if needed.
+
+    Most clear questions retrieve better as-is. We only rewrite when the
+    question contains slang, typos, or unresolved references.
+    """
+    q = state["question"].strip()
+
+    # Heuristic: if the question is already well-formed (capital start,
+    # reasonable length, ends with ?), skip the LLM rewrite entirely.
+    looks_clean = (
+        len(q) >= 15
+        and q[0].isupper()
+        and q.endswith("?")
+        and "?" not in q[:-1]  # only one question mark
+    )
+
+    if looks_clean:
+        log.info("Rewrite: skipped (question already well-formed)")
+        return {"rewritten": q}
+
     llm = get_llm(temperature=0.0)
     response = llm.invoke([
         SystemMessage(content=REWRITE_SYSTEM),
-        HumanMessage(content=state["question"]),
+        HumanMessage(content=q),
     ])
     rewritten = response.content.strip()
-    log.info("Rewrite: %r → %r", state["question"], rewritten)
+    log.info("Rewrite: %r → %r", q, rewritten)
     return {"rewritten": rewritten}
 
 

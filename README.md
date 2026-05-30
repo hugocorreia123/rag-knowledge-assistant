@@ -134,6 +134,21 @@ A few choices worth flagging for anyone reviewing the code:
 
 ---
 
+## ⚠️ Known limitations
+
+A few honest caveats worth flagging — they shape the roadmap below.
+
+- **PDF extraction artifacts.** EUR-Lex PDFs use letter-spaced typography for print, which causes `pypdf` to split words across spaces (e.g. `fines` extracted as `f ines`, `obligations` as `obli g ations`). This subtly degrades retrieval precision on token-level matches. The graph still answers correctly with citations, but some answers are hedgier than they need to be.
+- **Single-document corpus.** Currently scoped to the EU AI Act. Adding the Commission's FAQ and ENISA guidance would expand the answer space.
+- **Embedding model size.** `all-MiniLM-L6-v2` is fast and free, but a larger embedder (e.g. `BAAI/bge-large-en-v1.5`) would likely give a meaningful precision boost on legal text.
+
+## 🗺️ Roadmap
+
+- Switch PDF parsing to `pdfplumber` or `pymupdf` for cleaner text extraction.
+- Hybrid retrieval (BM25 + vector) for better coverage on specific terms (article numbers, monetary figures).
+- Reranking with a cross-encoder for the top-20 → top-5 step.
+- Multi-document ingestion (EU AI Act + explanatory guidance).
+
 ## 📜 License
 
 MIT — see [LICENSE](LICENSE)
