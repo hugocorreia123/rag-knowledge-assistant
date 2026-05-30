@@ -14,6 +14,7 @@ API is a thin transport layer that handles HTTP, validates input/output with
 Pydantic, and returns clean JSON.
 """
 
+
 from __future__ import annotations
 
 import logging
@@ -24,6 +25,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 from src.graph import ask
+
+from fastapi.responses import RedirectResponse
 
 log = logging.getLogger(__name__)
 
@@ -104,6 +107,11 @@ app.add_middleware(
 # ---------------------------------------------------------------------------
 # Endpoints
 # ---------------------------------------------------------------------------
+@app.get("/", include_in_schema=False)
+def root_redirect() -> RedirectResponse:
+    """Redirect the root URL to the interactive API docs."""
+    return RedirectResponse(url="/docs")
+
 @app.get("/health", response_model=HealthResponse, tags=["meta"])
 def health() -> HealthResponse:
     """Liveness probe — used by deploy environments and the docs page."""

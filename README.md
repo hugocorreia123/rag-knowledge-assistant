@@ -65,6 +65,57 @@ This multi-step orchestration is the key difference from a naive RAG pipeline. I
 
 ## 🚀 Quickstart
 
+---
+
+## 🔌 REST API
+
+Beyond the Streamlit UI, the same workflow is exposed as a typed REST API for integration with other applications.
+
+```bash
+make api          # launches at http://localhost:8000
+```
+
+Then visit **`http://localhost:8000/docs`** for the auto-generated interactive Swagger UI:
+
+<p align="center">
+  <img src="docs/screenshots/api_swagger.png" width="800" alt="Swagger UI — RAG Knowledge Assistant API"/>
+</p>
+
+**Example: ask a question via `curl`**
+
+```bash
+curl -X POST http://localhost:8000/ask \
+  -H "Content-Type: application/json" \
+  -d '{"question": "Which AI practices are prohibited under the EU AI Act?"}'
+```
+
+**Response shape:**
+
+```json
+{
+  "question": "Which AI practices are prohibited under the EU AI Act?",
+  "answer": "The EU AI Act prohibits the following practices: ...",
+  "citations": [
+    {
+      "source": "eu_ai_act.pdf",
+      "page": 51,
+      "similarity": 0.640,
+      "snippet": "..."
+    }
+  ],
+  "was_answered": true
+}
+```
+
+**Endpoints:**
+
+| Method | Path     | Purpose                                  |
+|--------|----------|------------------------------------------|
+| `GET`  | `/`      | Redirects to `/docs`                     |
+| `GET`  | `/health`| Liveness probe                           |
+| `POST` | `/ask`   | Ask a question, get a grounded answer    |
+| `GET`  | `/docs`  | Interactive Swagger UI                   |
+
 ```bash
 # 1. Clone and install dependencies
 git clone https://github.com/hugocorreia123/rag-knowledge-assistant.git
