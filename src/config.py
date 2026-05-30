@@ -115,3 +115,14 @@ if __name__ == "__main__":
     print(f"Top-K:             {TOP_K}")
     validate_llm_config()
     print("✓ Configuration valid.")
+
+# ---------------------------------------------------------------------------
+# Silence noisy third-party loggers
+# ---------------------------------------------------------------------------
+import logging as _logging
+for _name in (
+    "chromadb.telemetry.product.posthog",
+    "chromadb.telemetry",
+    "httpx",
+):
+    _logging.getLogger(_name).setLevel(_logging.ERROR + 1)  # above ERROR = silenced
