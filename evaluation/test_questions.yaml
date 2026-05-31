@@ -19,7 +19,7 @@
 - id: def_ai_system
   category: definition
   question: How does the EU AI Act define an AI system?
-  expected_pages: [4, 5]
+  expected_pages: [4, 5, 44] 
   key_facts:
     - "machine-based system"
     - "infer from inputs"
@@ -29,7 +29,7 @@
 - id: def_gpai
   category: definition
   question: What is the definition of a general-purpose AI model?
-  expected_pages: [26, 27]
+  expected_pages: [26, 27, 76, 77]
   key_facts:
     - "general-purpose"
     - "significant generality"
@@ -39,7 +39,7 @@
 - id: def_high_risk
   category: definition
   question: What qualifies an AI system as high-risk under the Act?
-  expected_pages: [46, 47, 48]
+  expected_pages: [13, 14, 15, 17, 54, 55]
   key_facts:
     - "Annex III"
     - "safety component"
@@ -50,7 +50,7 @@
 - id: prohib_general
   category: prohibition
   question: Which AI practices are prohibited under the EU AI Act?
-  expected_pages: [50, 51, 52]
+  expected_pages: [22, 41, 49, 50, 51, 52]
   key_facts:
     - "subliminal techniques"
     - "social scoring"
@@ -60,7 +60,7 @@
 - id: prohib_biometric
   category: prohibition
   question: Are real-time remote biometric identification systems prohibited in public spaces?
-  expected_pages: [51, 52]
+  expected_pages: [9, 10, 11, 52, 53]
   key_facts:
     - "real-time remote biometric"
     - "law enforcement"
@@ -70,7 +70,7 @@
 - id: prohib_social_scoring
   category: prohibition
   question: Does the EU AI Act prohibit social scoring by public authorities?
-  expected_pages: [50, 51]
+  expected_pages: [3, 46, 47, 50, 51]
   key_facts:
     - "social scoring"
     - "social behaviour"
@@ -81,7 +81,7 @@
 - id: oblig_providers_hr
   category: obligation
   question: What are the obligations for providers of high-risk AI systems?
-  expected_pages: [60, 61, 62, 63]
+  expected_pages: [22, 41, 49, 60, 61, 62, 63, 67] 
   key_facts:
     - "risk management system"
     - "technical documentation"
@@ -91,7 +91,7 @@
 - id: oblig_data_governance
   category: obligation
   question: What data governance requirements apply to high-risk AI systems?
-  expected_pages: [56, 57]
+  expected_pages: [19, 20, 22, 56, 57]
   key_facts:
     - "training, validation and testing"
     - "relevant, representative"
@@ -101,7 +101,7 @@
 - id: oblig_human_oversight
   category: obligation
   question: What human oversight requirements does the Act impose on high-risk AI systems?
-  expected_pages: [58, 59]
+  expected_pages: [21, 22, 54, 58, 59, 60]
   key_facts:
     - "human oversight"
     - "natural persons"
@@ -112,7 +112,7 @@
 - id: gpai_obligations
   category: gpai
   question: What obligations apply to providers of general-purpose AI models?
-  expected_pages: [76, 77, 78]
+  expected_pages: [26, 27, 31, 76, 77, 78]
   key_facts:
     - "technical documentation"
     - "copyright"
@@ -122,7 +122,7 @@
 - id: gpai_systemic_risk
   category: gpai
   question: When is a general-purpose AI model classified as having systemic risk?
-  expected_pages: [78, 79, 80]
+  expected_pages: [28, 30, 78, 79, 80]  
   key_facts:
     - "high-impact capabilities"
     - "10^25 FLOPs"
@@ -133,7 +133,7 @@
 - id: trans_general
   category: transparency
   question: What transparency obligations apply to AI systems interacting with humans?
-  expected_pages: [73, 74]
+  expected_pages: [7, 8, 27, 33, 73, 74]
   key_facts:
     - "natural persons are informed"
     - "interacting with an AI system"
@@ -143,7 +143,7 @@
 - id: trans_deepfake
   category: transparency
   question: Are deepfakes required to be labelled under the EU AI Act?
-  expected_pages: [73, 74]
+  expected_pages: [30, 33, 73, 74, 81] 
   key_facts:
     - "deepfake"
     - "artificially generated"
@@ -154,7 +154,7 @@
 - id: pen_general
   category: penalty
   question: What penalties apply for non-compliance with the EU AI Act?
-  expected_pages: [114, 115, 116]
+  expected_pages: [42, 114, 115, 116, 118, 119, 120]
   key_facts:
     - "EUR 35 000 000"
     - "7 % of"
@@ -164,7 +164,7 @@
 - id: pen_prohibited
   category: penalty
   question: What is the maximum fine for non-compliance with the prohibited AI practices?
-  expected_pages: [115]
+  expected_pages: [41, 42, 51, 115, 116] 
   key_facts:
     - "EUR 35 000 000"
     - "7 %"
@@ -175,7 +175,7 @@
 - id: scope_general
   category: scope
   question: To whom does the EU AI Act apply?
-  expected_pages: [44, 45, 46]
+  expected_pages: [1, 2, 4, 6, 38, 44, 45, 46]
   key_facts:
     - "providers"
     - "deployers"
@@ -185,7 +185,7 @@
 - id: scope_open_source
   category: scope
   question: Does the EU AI Act apply to AI systems released under free and open-source licences?
-  expected_pages: [45, 46]
+  expected_pages: [24, 27, 31, 45, 46] 
   key_facts:
     - "free and open-source"
     - "placed on the market"
@@ -196,7 +196,7 @@
 - id: gov_ai_office
   category: governance
   question: What is the role of the AI Office under the Act?
-  expected_pages: [85, 86, 87]
+  expected_pages: [85, 86, 87, 95] 
   key_facts:
     - "AI Office"
     - "Commission"
