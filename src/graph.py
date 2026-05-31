@@ -199,6 +199,34 @@ def ask(question: str) -> GraphState:
     return graph.invoke({"question": question})
 
 
+def ask_direct(question: str) -> GraphState:
+    """Token-efficient variant for evaluation: skip rewrite and grade.
+
+    Runs retrieve → answer directly. Saves ~2/3 of the LLM tokens compared
+    to the full graph, at the cost of losing rewrite-quality and grade-based
+    refusal. Out-of-scope refusal still works via the answer model's own
+    "context insufficient" output.
+    """
+    chunks = retrieve(question)
+    state: GraphState = {
+        "question": question,
+        "rewritten": question,
+        "chunks": chunks,
+        "is_relevant": True,  # bypass the grader
+    }
+    state.update(node_answer(state))
+
+    # Refusal heuristic without grader call: if the answer literally says
+    # the context is insufficient and cites nothing, mark it as a refusal.
+    if not state.get("citations") and any(
+        phrase in state.get("answer", "").lower()
+        for phrase in ("insufficient", "i couldn't find", "does not contain", "no information")
+    ):
+        state["answer"] = REFUSE_MESSAGE
+        state["citations"] = []
+    return state
+
+
 # ---------------------------------------------------------------------------
 # Smoke test
 # ---------------------------------------------------------------------------

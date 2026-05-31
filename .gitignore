@@ -52,3 +52,6 @@ data/chroma_db/
 .pytest_cache/
 .coverage
 htmlcov/
+
+# Evaluation checkpoint (auto-generated during eval runs)
+evaluation/.checkpoint.json

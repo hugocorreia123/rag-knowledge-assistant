@@ -13,7 +13,7 @@ PYTHON := python
 VENV := .venv
 ACTIVATE := source $(VENV)/bin/activate
 
-.PHONY: help install ingest run api graph smoke test clean
+.PHONY: help install ingest run api graph smoke test eval clean
 
 help:
 	@echo "Available targets:"
@@ -24,6 +24,7 @@ help:
 	@echo "  graph     Run the LangGraph workflow in the terminal"
 	@echo "  smoke     Smoke-test semantic retrieval"
 	@echo "  test      Run unit tests"
+	@echo "  eval      Run the evaluation suite against the test questions"
 	@echo "  clean     Remove the vector store"
 
 install:
@@ -49,6 +50,9 @@ smoke:
 
 test:
 	$(PYTHON) -m pytest tests/ -v
+
+eval:
+	$(PYTHON) -m evaluation.evaluate
 
 clean:
 	rm -rf data/chroma_db

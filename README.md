@@ -144,25 +144,44 @@ The Streamlit UI opens at `http://localhost:8501`.
 
 ## 📊 Evaluation
 
-The `evaluation/` directory contains **20 hand-written question–answer pairs** covering different chapters of the EU AI Act, plus an automated evaluation script.
+The hardest part of building a RAG system is **knowing if it's good**. This project includes a real evaluation suite — not just vibes.
 
-Run it with:
-```bash
-python evaluation/evaluate.py
-```
+### Methodology
 
-**Latest results** *(see `evaluation/results.md` for the full breakdown)*:
+The test set in [`evaluation/test_questions.yaml`](evaluation/test_questions.yaml) contains **21 hand-written cases** covering:
 
-| Metric | Value |
+- **18 in-scope questions** across 8 categories (definitions, prohibitions, obligations, transparency, GPAI, penalties, scope, governance)
+- **3 out-of-scope questions** the system should refuse (cooking, weather, programming installs)
+
+Each in-scope case specifies:
+- `expected_pages` — page numbers in the EU AI Act where the answer should be grounded
+- `key_facts` — specific phrases the answer should mention (used as a substring-based faithfulness signal)
+
+### Metrics
+
+Run `make eval` (or `python -m evaluation.evaluate`) to produce four metrics:
+
+| Metric | What it measures |
 |---|---|
-| Retrieval precision@5 | *coming after eval run* |
-| Answer faithfulness (LLM-judge) | *coming after eval run* |
-| Refusal rate on out-of-scope questions | *coming after eval run* |
-| Median latency | *coming after eval run* |
+| **Recall@K** | Fraction of expected pages found in the top-K retrieved chunks |
+| **Precision@5** | Fraction of top-5 chunks coming from expected pages |
+| **Faithfulness** | Fraction of `key_facts` substring-matched in the generated answer |
+| **Refusal accuracy** | Fraction of out-of-scope questions correctly refused |
+| **Median latency** | End-to-end seconds per question |
 
-> Numbers will be filled in once the evaluation phase is complete.
+### Calibration workflow
 
----
+Building a good test set is iterative. The repo includes a zero-LLM diagnostic (`python -m evaluation.diagnose_retrieval`) that runs only the retriever, so `expected_pages` can be calibrated against real retrieval output before spending tokens on the full eval. This is how the current test set's page ranges were chosen — including both **recital pages** (the explanatory "whereas" sections) and **article pages** (the operative law), because the EU AI Act discusses each topic in both forms.
+
+### Resilience
+
+The eval is resumable: if it hits a rate limit mid-run, partial progress is checkpointed to `evaluation/.checkpoint.json` and the next `make eval` invocation continues from where it stopped. Rate-limit errors trigger exponential-backoff retries automatically.
+
+### Latest results
+
+Live, machine-generated results live in [`evaluation/results.md`](evaluation/results.md) — re-run periodically against the latest code.
+
+> Free-tier LLM quotas (Groq) cap daily evaluation runs at ~100K tokens. The eval is designed to fit within that budget by using a token-efficient direct retrieval-and-answer path (`ask_direct` in `src/graph.py`), skipping the LangGraph rewrite and grade nodes during measurement.
 
 ## 🔄 Swapping the LLM provider
 
