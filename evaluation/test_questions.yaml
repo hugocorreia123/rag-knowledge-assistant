@@ -1,0 +1,226 @@
+# Evaluation test set for the RAG Knowledge Assistant — EU AI Act.
+#
+# Each entry contains:
+#   - id:                 stable identifier (so results are comparable across runs)
+#   - category:           the broad type of question
+#   - question:           what the user asks
+#   - expected_pages:     list of EU AI Act PDF page numbers where the answer lives
+#                         (used for retrieval precision/recall metrics)
+#   - key_facts:          list of facts the answer should mention (used by LLM-judge)
+#   - should_answer:      true  = a grounded answer is expected
+#                         false = the system should refuse (out-of-scope)
+#
+# Categories: definition, obligation, prohibition, penalty, scope, governance,
+#             transparency, gpai, out_of_scope
+#
+# Page numbers are 1-indexed and match data/raw/eu_ai_act.pdf as published by EUR-Lex.
+
+# ---------- DEFINITIONS ----------
+- id: def_ai_system
+  category: definition
+  question: How does the EU AI Act define an AI system?
+  expected_pages: [4, 5]
+  key_facts:
+    - "machine-based system"
+    - "infer from inputs"
+    - "varying degrees of autonomy"
+  should_answer: true
+
+- id: def_gpai
+  category: definition
+  question: What is the definition of a general-purpose AI model?
+  expected_pages: [26, 27]
+  key_facts:
+    - "general-purpose"
+    - "significant generality"
+    - "trained with large amounts of data"
+  should_answer: true
+
+- id: def_high_risk
+  category: definition
+  question: What qualifies an AI system as high-risk under the Act?
+  expected_pages: [46, 47, 48]
+  key_facts:
+    - "Annex III"
+    - "safety component"
+    - "intended purpose"
+  should_answer: true
+
+# ---------- PROHIBITIONS ----------
+- id: prohib_general
+  category: prohibition
+  question: Which AI practices are prohibited under the EU AI Act?
+  expected_pages: [50, 51, 52]
+  key_facts:
+    - "subliminal techniques"
+    - "social scoring"
+    - "biometric categorisation"
+  should_answer: true
+
+- id: prohib_biometric
+  category: prohibition
+  question: Are real-time remote biometric identification systems prohibited in public spaces?
+  expected_pages: [51, 52]
+  key_facts:
+    - "real-time remote biometric"
+    - "law enforcement"
+    - "publicly accessible spaces"
+  should_answer: true
+
+- id: prohib_social_scoring
+  category: prohibition
+  question: Does the EU AI Act prohibit social scoring by public authorities?
+  expected_pages: [50, 51]
+  key_facts:
+    - "social scoring"
+    - "social behaviour"
+    - "detrimental treatment"
+  should_answer: true
+
+# ---------- OBLIGATIONS ----------
+- id: oblig_providers_hr
+  category: obligation
+  question: What are the obligations for providers of high-risk AI systems?
+  expected_pages: [60, 61, 62, 63]
+  key_facts:
+    - "risk management system"
+    - "technical documentation"
+    - "conformity assessment"
+  should_answer: true
+
+- id: oblig_data_governance
+  category: obligation
+  question: What data governance requirements apply to high-risk AI systems?
+  expected_pages: [56, 57]
+  key_facts:
+    - "training, validation and testing"
+    - "relevant, representative"
+    - "free of errors"
+  should_answer: true
+
+- id: oblig_human_oversight
+  category: obligation
+  question: What human oversight requirements does the Act impose on high-risk AI systems?
+  expected_pages: [58, 59]
+  key_facts:
+    - "human oversight"
+    - "natural persons"
+    - "minimise the risks"
+  should_answer: true
+
+# ---------- GPAI ----------
+- id: gpai_obligations
+  category: gpai
+  question: What obligations apply to providers of general-purpose AI models?
+  expected_pages: [76, 77, 78]
+  key_facts:
+    - "technical documentation"
+    - "copyright"
+    - "training data summary"
+  should_answer: true
+
+- id: gpai_systemic_risk
+  category: gpai
+  question: When is a general-purpose AI model classified as having systemic risk?
+  expected_pages: [78, 79, 80]
+  key_facts:
+    - "high-impact capabilities"
+    - "10^25 FLOPs"
+    - "systemic risk"
+  should_answer: true
+
+# ---------- TRANSPARENCY ----------
+- id: trans_general
+  category: transparency
+  question: What transparency obligations apply to AI systems interacting with humans?
+  expected_pages: [73, 74]
+  key_facts:
+    - "natural persons are informed"
+    - "interacting with an AI system"
+    - "deepfake"
+  should_answer: true
+
+- id: trans_deepfake
+  category: transparency
+  question: Are deepfakes required to be labelled under the EU AI Act?
+  expected_pages: [73, 74]
+  key_facts:
+    - "deepfake"
+    - "artificially generated"
+    - "disclose"
+  should_answer: true
+
+# ---------- PENALTIES ----------
+- id: pen_general
+  category: penalty
+  question: What penalties apply for non-compliance with the EU AI Act?
+  expected_pages: [114, 115, 116]
+  key_facts:
+    - "EUR 35 000 000"
+    - "7 % of"
+    - "administrative fines"
+  should_answer: true
+
+- id: pen_prohibited
+  category: penalty
+  question: What is the maximum fine for non-compliance with the prohibited AI practices?
+  expected_pages: [115]
+  key_facts:
+    - "EUR 35 000 000"
+    - "7 %"
+    - "Article 5"
+  should_answer: true
+
+# ---------- SCOPE ----------
+- id: scope_general
+  category: scope
+  question: To whom does the EU AI Act apply?
+  expected_pages: [44, 45, 46]
+  key_facts:
+    - "providers"
+    - "deployers"
+    - "placed on the market"
+  should_answer: true
+
+- id: scope_open_source
+  category: scope
+  question: Does the EU AI Act apply to AI systems released under free and open-source licences?
+  expected_pages: [45, 46]
+  key_facts:
+    - "free and open-source"
+    - "placed on the market"
+    - "high-risk"
+  should_answer: true
+
+# ---------- GOVERNANCE ----------
+- id: gov_ai_office
+  category: governance
+  question: What is the role of the AI Office under the Act?
+  expected_pages: [85, 86, 87]
+  key_facts:
+    - "AI Office"
+    - "Commission"
+    - "general-purpose AI"
+  should_answer: true
+
+# ---------- OUT OF SCOPE — system should refuse ----------
+- id: oos_pizza
+  category: out_of_scope
+  question: What's the best pizza place in Lisbon?
+  expected_pages: []
+  key_facts: []
+  should_answer: false
+
+- id: oos_python
+  category: out_of_scope
+  question: How do I install Python on macOS?
+  expected_pages: []
+  key_facts: []
+  should_answer: false
+
+- id: oos_weather
+  category: out_of_scope
+  question: What's the weather in Madrid tomorrow?
+  expected_pages: []
+  key_facts: []
+  should_answer: false
