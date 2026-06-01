@@ -381,3 +381,7 @@ def main() -> int:
         log.info("Cleared checkpoint.")
 
     return 0
+
+if __name__ == "__main__":
+    import sys
+    sys.exit(main())
