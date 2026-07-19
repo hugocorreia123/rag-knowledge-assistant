@@ -20,6 +20,10 @@ import streamlit as st
 from src.graph import ask
 from src.retriever import RetrievedChunk
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import rag_friendly as rf
+import rag_theme as th
+
 
 # ---------------------------------------------------------------------------
 # Page config
@@ -30,6 +34,12 @@ st.set_page_config(
     layout="centered",
     initial_sidebar_state="expanded",
 )
+
+th.inject()
+
+
+if not rf.show_welcome():
+    st.stop()
 
 
 # ---------------------------------------------------------------------------
@@ -79,13 +89,20 @@ with st.sidebar:
         · [GitHub](https://github.com/hugocorreia123/rag-knowledge-assistant)
         """
     )
+    rf.show_replay()
 
 
 # ---------------------------------------------------------------------------
 # Header
 # ---------------------------------------------------------------------------
-st.title("RAG Knowledge Assistant")
-st.caption("Ask questions about the EU AI Act — answers grounded in the official text.")
+th.hero(
+    "EU AI Act · Grounded answers",
+    "RAG Knowledge Assistant",
+    "Retrieves the law first and answers second — every claim carries a "
+    "citation you can open, or the assistant refuses cleanly.",
+    "Regulation (EU) 2024/1689 · LangGraph · local embeddings",
+)
+rf.show_help_expander()
 
 
 # ---------------------------------------------------------------------------
