@@ -2,6 +2,8 @@
 
 > A Retrieval-Augmented Generation (RAG) assistant that answers questions about the **EU AI Act** using a multi-step **LangGraph** workflow, local embeddings, and a swappable LLM backend (**Groq** by default, Azure OpenAI optional).
 
+**[Live demo](https://rag-knowledge-assistant-hc.streamlit.app)** — ask the Act anything in the browser. Every answer carries the citations it stands on, or the assistant refuses cleanly — a measured behaviour, not a hope.
+
 <p align="center">
   <img src="docs/demo.gif" width="800" alt="Demo — RAG Knowledge Assistant"/>
 </p>
@@ -10,7 +12,7 @@
   <img src="docs/screenshots/streamlit_ui.png" width="800" alt="Streamlit UI — RAG Knowledge Assistant"/>
 </p>
 
-<p align="center"><i>Live demo (above) and static view (below) of the Streamlit chat UI answering questions about the EU AI Act with grounded citations.</i></p>
+<p align="center"><i>Animated preview (above) and static view (below) of the Streamlit chat UI answering questions about the EU AI Act with grounded citations.</i></p>
 
 ---
 
